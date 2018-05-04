@@ -38,7 +38,7 @@ cmc = CMC(cmc_dict,color=new_color,marker=new_marker)
 #simple plot
 cmc.plot(title = 'CMC on CUHK01 (100 test IDs)')
 ```
-![png](./cmc_result_1.png)
+![png](https://github.com/LinShanify/CMC/blob/master/cmc_result_1.png?raw=true)
 
 
 
@@ -48,7 +48,7 @@ cmc.plot(title = 'CMC on CUHK01', rank=10,
          xlabel='Rank Score',
          ylabel='Recognition Rate', show_grid=False)
 ```
-![png](./cmc_result_2.png)
+![png](https://github.com/LinShanify/CMC/blob/master/cmc_result_2.png?raw=true)
 
 
 ## **Method 2 `save`**: 2 required, 6+ optional
