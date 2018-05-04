@@ -1,4 +1,5 @@
 # A Simple Tool for Ploting CMC Curve
+## [Demo](./demo.ipynb)
 ### __CMC Class__: 3 Inputs (1 required, 2 optinal)
 1. __cmc_dict:__ python dictionary of cmc values. Key is the method name (string). Value is the cmc values. 
     * __The last dictionary item__ must be set to your proposed method's result.
