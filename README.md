@@ -1,43 +1,79 @@
-## CMC Ploting and Figure Save Tool
-
-
-More datasets will be added in the future.
-### Require Packages
-matplotlib <br />
-
-### How to Use
-Import function:
+# A Simple Tool for Ploting CMC Curve
+---
+### __CMC Class__: 3 Inputs (1 required, 2 optinal)
+1. __cmc_dict:__ python dictionary of cmc values. Key is the method name (string). Value is the cmc values. 
+    * __The last dictionary item__ must be set to your proposed method's result.
 ```python
-from cmc import show_cmc,save_cmc
-```
-Simple Example:<br />
-show_cmc will take 4 inputs:<br />
-1) highlinging method name (Your proposed method) string formate<br />
-2) Title of the plot: string formate <br />
-3) rank number: top 10/15/20 (int)
-4) all cmc value in dictionary formate: {name: [values in python list]}
-
-save_cmc will include all abvoed inputs with addtional three:
-5) figure saving directory
-6) dpi value (higher is better, default is 500)
-7) figure saving formate (png,pdf,ps,eps and svg, default is eps) in string formate
-```python
-%matplotlib inline
-my_method_name = 'ImprovedReID'
-title = 'CMC on CUHK01 (100 test IDs)'
-rank_no = 20
-save_dir = './'
-
 cmc_dict ={
-    'ImprovedReID': [0.65, 0.75, 0.81, 0.85, 0.89, 0.90, 0.91, 0.91, 0.93, 0.94, 0.94, 0.94, 0.95, 0.95, 0.95, 0.96, 0.97, 0.97, 0.97, 0.98],
-    'KISSME': [0.294, 0.41, 0.5, 0.56, 0.6018, 0.6390, 0.6891, 0.71, 0.73, 0.7444, 0.7694, 0.7894, 0.805, 0.8195, 0.8295, 0.8396, 0.8497, 0.8597, 0.8697, 0.8808],
-    'FPNN': [0.278, 0.4, 0.49, 0.54, 0.5964, 0.6380, 0.68, 0.71, 0.73, 0.7353, 0.7604, 0.7854, 0.810, 0.8275, 0.8405, 0.8496, 0.8597, 0.8697, 0.8797, 0.8908],
-    'LMNN': [0.2118, 0.31, 0.39, 0.44, 0.49, 0.530, 0.56, 0.581, 0.613, 0.6298, 0.65, 0.67554, 0.68810, 0.705, 0.72, 0.736, 0.7497, 0.767, 0.78, 0.7908],
-    'SDALF': [0.099, 0.21, 0.29, 0.34, 0.3912, 0.440, 0.47, 0.511, 0.543, 0.569, 0.58, 0.59, 0.60, 0.61, 0.625, 0.63, 0.64, 0.65, 0.66, 0.675],
-    'SalMatch': [0.285, 0.35, 0.39, 0.42, 0.45, 0.480, 0.495, 0.521, 0.53, 0.55, 0.575, 0.595, 0.61, 0.62, 0.635, 0.64, 0.655, 0.665, 0.675, 0.695],
-    'XQDA_LOMO': [0.632, 0.74, 0.80, 0.82, 0.839, 0.855, 0.87, 0.885, 0.895, 0.90, 0.905, 0.91, 0.915, 0.92, 0.925, 0.93, 0.935, 0.94, 0.945, 0.95]
+    'SDALF': [0.10, 0.21, 0.29, 0.34, 0.40, 0.44, 0.47, 0.51, 0.54, 0.57],
+    'ImprovedReID': [0.65, 0.75, 0.81, 0.85, 0.89, 0.90, 0.91, 0.91, 0.93, 0.94],
+    'Proposed Method': [0.65, 0.75, 0.81, 0.85, 0.89, 0.90, 0.91, 0.91, 0.93, 0.94]
 }
+```
+2. __color__ (optional): a list of colors for ploting (_the __first color__ will be used for your proposed method's cmc curve_). detail document for color is [here](https://matplotlib.org/api/colors_api.html)
+    * 7 default colors is alrady set up in the class: `color = ['r','g','b','c','m','y','orange','brown']`
+3. __marker__ (optional): a list of markers for ploting (_the __first marker__ will be used for your proposed method's cmc curve_). detail document for marker is [here](https://matplotlib.org/api/markers_api.html).
+    * 7 default marker is alrady set up in the class: `marker = ['*','o','s','v','X','*','.','P']`
 
-show_cmc(my_method_name,title,rank_no,cmc_dict)
-save_cmc(my_method_name,title,rank_no,cmc_dict,save_dir)
+
+```python
+from CMC import CMC
+cmc = CMC(cmc_dict)
+
+#custimised color and marker
+new_color = ['r','g','b','c','m','y','orange','brown']
+new_marker = ['*','o','s','v','X','*','.','P']
+cmc = CMC(cmc_dict,color=new_color,marker=new_marker)
+```
+
+## **Method 1 `plot`**: 1 required, 4 optional
+1. __title:__ title of the cmc curve (string)
+2. __rank__(optional): top *n* value for ploting (integer), default is 20
+3. __xlabel__ (optional): label for x-axis (string), default is `Rank`
+4. __ylabel__ (optional): label for y-axis (sting). default is `Matching Rates (%)`
+5. __show_grid__ (optional): turn on or off grid in the graph (boolean). default is `True`
+
+
+```python
+#simple plot
+cmc.plot(title = 'CMC on CUHK01 (100 test IDs)')
+```
+![png](./cmc_result_1.png)
+
+
+
+```python
+#custimised color and marker
+cmc.plot(title = 'CMC on CUHK01', rank=10,
+         xlabel='Rank Score',
+         ylabel='Recognition Rate', show_grid=False)
+```
+![png](./cmc_result_2.png)
+
+
+## **Method 2 `save`**: 2 required, 6+ optional
+### Required
+1. __title:__ title of the cmc curve (string)
+2. __filename:__ filename for saved figure *(string)*
+
+### Optional
+1. __rank__(optional): top *n* value for ploting (integer), default is 20
+2. __xlabel__ (optional): label for x-axis (string), default is `Rank`
+3. __ylabel__ (optional): label for y-axis (sting). default is `Matching Rates (%)`
+4. __show_grid__ (optional): turn on or off grid in the graph (boolean). default is `True`
+5. __save_path__ (optional): figure saving directory (default is the current working directory)
+6. __format__ (optional): figure saving fomate (**jpg, jpeg, png, pdf, ps, eps** and **svg**), default is **png**
+7. other parameters from [pyplot.savefig](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html) can be used here
+
+
+```python
+# simple save
+cmc.save(title = 'CMC on CUHK01 (100 test IDs)', filename='cmc_result_1')
+```
+
+```python
+#custimised save
+cmc.save(title = 'CMC on CUHK01', filename='cmc_result_2',
+         rank=10,xlabel='Rank Score', ylabel='Recognition Rate', 
+         show_grid=False, format='png')
 ```
